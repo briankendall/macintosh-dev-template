@@ -1,0 +1,6 @@
+[
+    {
+        "name": "Retro68",
+        "toolchainFile": "${env:RETRO68_TOOLCHAIN_PATH}/m68k-apple-macos/cmake/retro68.toolchain.cmake"
+    }
+]

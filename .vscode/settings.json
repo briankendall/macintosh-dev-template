@@ -1,0 +1,29 @@
+{
+    "cmake.sourceDirectory": "${workspaceFolder}",
+    "C_Cpp.default.intelliSenseMode": "linux-gcc-x86",
+    "files.exclude": {
+        "CMakeCache.txt": true,
+        "**/CMakeFiles": true,
+        "**/build": true,
+        ".vscode": false,
+        "minivmac/src": true,
+        "minivmac/cfg": true,
+        "minivmac/DerivedData": true,
+        "minivmac/disks": true,
+        "minivmac/extras": true,
+        "minivmac/setup": true,
+        "minivmac/.gitignore": true,
+        "minivmac/setup_t": true,
+        "minivmac/setup.sh": true,
+        "minivmac/*.xcodeproj": true,
+        "minivmac/*.txt": true,
+        "minivmac/*.rom": true,
+        "minivmac/*.ROM": true,
+        "minivmac/*.dsk": true,
+        "minivmac/signals": true,
+        "**/__pycache__": true
+    },
+    "files.associations": {
+        "logging.h": "c"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "CMake",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "compilerPath": "${env:RETRO68_TOOLCHAIN_PATH}/bin/m68k-apple-macos-gcc"
+        }
+    ],
+    "version": 4
+}
