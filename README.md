@@ -22,7 +22,6 @@ While this repo is set up specifically for VSCode, the scripts here could easily
 #### Optional prerequisites for running on real hardware:
 
 - pure-ftpd
-- hfsutils
 - A classic Macintosh with the following installed: MacTCP, AppleScript, Anarchie FTP client, and optionally KeyQuencer.
 
 
@@ -104,7 +103,7 @@ If you want to get clever about it, you could define the variable as:
     
 replacing en0 with whichever network adapter you're using. (Typically it'll be en0 or en1 depending on whether you're connected using Wi-Fi or Ethernet.)
 
-With those both set up, restart VSCode if it's running. Now when you build your project in VSCode, two things will happen:
+With those both set up, restart VSCode if it's running, and tell CMake to reconfigure. Now when you build your project in VSCode, two things will happen:
 
 1. The build process will automatically copy a MacBinary encoded version of your app into the FTP directory
 

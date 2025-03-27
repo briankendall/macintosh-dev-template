@@ -48,12 +48,16 @@ add_custom_target(check_command ALL
 add_dependencies(${PROJECT_NAME}_APPL check_command)
 
 
-# Copy built app to FTP staging directory:
-add_custom_command(TARGET ${PROJECT_NAME}_APPL POST_BUILD
-    COMMAND ${SCRIPTS_DIR}/copy-to-staging.sh ${CMAKE_CURRENT_BINARY_DIR} ${PROJECT_NAME}
-    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    COMMENT "Copying built app to staging"
-)
+if(DEFINED ENV{MACINTOSH_FTP_STAGING_PATH})
+    # Copy built app to FTP staging directory:
+    add_custom_command(TARGET ${PROJECT_NAME}_APPL POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin" "$ENV{MACINTOSH_FTP_STAGING_PATH}/${PROJECT_NAME}"
+        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+        COMMENT "Copying built app to staging"
+    )
+else()
+    message("Note: MACINTOSH_FTP_STAGING_PATH not defined, will not copy built app to FTP directory")
+endif()
 
 
 # Define IP address used for UDP-based logging
