@@ -23,7 +23,7 @@ target_include_directories(DemoProject PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/loggi
 target_link_libraries(DemoProject "-lm")
 target_link_libraries(DemoProject ${CMAKE_CURRENT_SOURCE_DIR}/logging/mini-vmac/libClipOut.a)
 
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-stringop-overflow -std=gnu90 -Ofast \
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-stringop-overflow -std=gnu90 -O3 \
 -Werror=declaration-after-statement -Werror=pointer-sign -Wunused-variable -Werror=implicit-function-declaration")
 
 # Enable -ffunction-sections and -gc-sections to make the app as small as possible
@@ -48,10 +48,10 @@ add_custom_target(check_command ALL
 add_dependencies(${PROJECT_NAME}_APPL check_command)
 
 
-if(DEFINED ENV{MACINTOSH_FTP_STAGING_PATH})
+if(DEFINED MACINTOSH_FTP_STAGING_PATH)
     # Copy built app to FTP staging directory:
     add_custom_command(TARGET ${PROJECT_NAME}_APPL POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin" "$ENV{MACINTOSH_FTP_STAGING_PATH}/${PROJECT_NAME}"
+        COMMAND ${CMAKE_COMMAND} -E copy "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}.bin" "${MACINTOSH_FTP_STAGING_PATH}/${PROJECT_NAME}"
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         COMMENT "Copying built app to staging"
     )
@@ -61,11 +61,28 @@ endif()
 
 
 # Define IP address used for UDP-based logging
-if(NOT DEFINED ENV{MACINTOSH_LOGGING_LOCAL_IP})
+if(NOT DEFINED MACINTOSH_LOGGING_LOCAL_IP)
     add_definitions(-DNO_UDP_LOGGING)
 else()
-    set(MACINTOSH_LOGGING_LOCAL_IP $ENV{MACINTOSH_LOGGING_LOCAL_IP})
-    string(REPLACE "." ";" IP_COMPONENTS ${MACINTOSH_LOGGING_LOCAL_IP})
+    if(MACINTOSH_LOGGING_LOCAL_IP STREQUAL "auto")
+        # Figure out the local IP address automatically
+        # First get the default network interface:
+        execute_process(
+            COMMAND sh -c "route -n get default | awk '/interface:/ {print $2}'"
+            OUTPUT_VARIABLE DEFAULT_IFACE
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+        # Then look up its IP address:
+        execute_process(
+            COMMAND sh -c "ipconfig getifaddr ${DEFAULT_IFACE}"
+            OUTPUT_VARIABLE LOCAL_IP
+            OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    else()
+        set(LOCAL_IP ${MACINTOSH_LOGGING_LOCAL_IP})
+    endif()
+    
+    string(REPLACE "." ";" IP_COMPONENTS ${LOCAL_IP})
     list(GET IP_COMPONENTS 0 IP_PART1)
     list(GET IP_COMPONENTS 1 IP_PART2)
     list(GET IP_COMPONENTS 2 IP_PART3)

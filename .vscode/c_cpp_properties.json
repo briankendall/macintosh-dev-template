@@ -2,8 +2,7 @@
     "configurations": [
         {
             "name": "CMake",
-            "configurationProvider": "ms-vscode.cmake-tools",
-            "compilerPath": "${env:RETRO68_TOOLCHAIN_PATH}/bin/m68k-apple-macos-gcc"
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4

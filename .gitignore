@@ -7,3 +7,4 @@ DerivedData
 null.d
 __pycache__
 *.dylib
+CMakeUserPresets.json
